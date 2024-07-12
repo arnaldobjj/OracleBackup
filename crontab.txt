@@ -1,0 +1,11 @@
+##########################################
+#  Oracle Backups                        #
+#  Daily = level 1                       #
+#  Weekly, Monthly and Yearly = level 0  #
+##########################################
+00 4,12,20 * * * cd /opt/backupScripts; sh rman_backup_aws.sh EARTH archive YES
+00 22 * * *      cd /opt/backupScripts; sh rman_backup_aws.sh EARTH daily YES
+00 23 * * 3,6    cd /opt/backupScripts; sh rman_backup_aws.sh EARTH weekly YES
+00 20 1 * *      cd /opt/backupScripts; sh rman_backup_aws.sh EARTH monthly YES
+00 00 31 12 *    cd /opt/backupScripts; sh rman_backup_aws.sh EARTH yearly YES
+

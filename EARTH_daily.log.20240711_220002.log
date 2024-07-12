@@ -1,0 +1,253 @@
+*** Process Beginning : 11/07/2024 22:00:02
+Files compressed successfully.
+Files moved successfully.
+Log files cleaned up successfully.
+
+*** Starting Backup
+*** Script rman_backup_aws.sh
+
+*** ORACLE_USER   : oracle
+*** ORACLE_HOME   : /companyname/app/oracle/product/19.3.0/db_1
+*** USER          : root
+*** LOG FILE      : /opt/backupScripts/log/EARTH_daily.log.20240711_220002
+*** ERR FILE      : /opt/backupScripts/log/EARTH_daily.err.20240711_220002
+/usr/local/bin:/usr/bin:/bin
+/usr/local/bin:/usr/bin:/bin:/sbin:/companyname/app/oracle/product/19.3.0/db_1/bin:/companyname/app/oracle/product/19.3.0/db_1/jdk/bin:/companyname/app/oracle/product/19.3.0/db_1/jdk/jre/bin
+/companyname/app/oracle/product/19.3.0/db_1
+/companyname/app/oracle
+
+ Hostname    : fvedp
+ ORACLE_SID  : EARTH
+ ORACLE_HOME : /companyname/app/oracle/product/19.3.0/db_1
+ USER        : oracle
+
+ Last Logon
+ Username Port         From             Latest
+ oracle   pts/1        192.168.10.223   Wed Jul 10 16:07 - 16:10  (00:03)
+
+ ____        _        _
+|  _ \  __ _| |_ __ _| |__   __ _ ___  ___
+| | | |/ _` | __/ _` | |_ \ / _` / __|/ _ \
+| |_| | (_| | || (_| | |_) | (_| \__ \  __/
+|____/ \__,_|\__\__,_|_.__/ \__,_|___/\___|
+
+
+
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Thu Jul 11 22:00:03 2024
+Version 19.21.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: EARTH (DBID=1111111111)
+connected to recovery catalog database
+
+RMAN>
+echo set on
+
+RMAN>                         SET ENCRYPTION ON IDENTIFIED BY *ONLY;
+executing command: SET encryption
+
+
+RMAN>                         show all;
+RMAN configuration parameters for database with db_unique_name EARTH are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1;
+CONFIGURE BACKUP OPTIMIZATION OFF;
+CONFIGURE DEFAULT DEVICE TYPE TO 'SBT_TAPE';
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F';
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE 'SBT_TAPE' TO '%F';
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET;
+CONFIGURE DEVICE TYPE 'SBT_TAPE' PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET;
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1;
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE 'SBT_TAPE' TO 1;
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1;
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE 'SBT_TAPE' TO 1;
+CONFIGURE MAXSETSIZE TO UNLIMITED;
+CONFIGURE ENCRYPTION FOR DATABASE OFF;
+CONFIGURE ENCRYPTION ALGORITHM 'AES128';
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE;
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS;
+CONFIGURE ARCHIVELOG DELETION POLICY TO APPLIED ON ALL STANDBY BACKED UP 1 TIMES TO 'SBT_TAPE';
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO '/companyname/app/oracle/product/19.3.0/db_1/dbs/snapcf_EARTH.f'; # default
+
+
+RMAN>                                 run
+2>                                 {
+3>                                 allocate channel ch1 type sbt
+4>                                 PARMS='SBT_LIBRARY=/companyname/app/oracle/product/19.3.0/db_1/lib/libosbws.so,SBT_PARMS=(OSB_WS_PFILE=/companyname/app/oracle/product/19.3.0/db_1/dbs/osbws_conf/osbws_EARTH.ora)';
+5>                                 backup incremental level = 1 database tag dbs_EARTH_d FORMAT 'dbs_%d_%U_%T';
+6>                                 backup spfile tag dbs_EARTH_d FORMAT 'spf_%d_%U_%T';
+7>                                 backup archivelog all tag dbs_EARTH_d FORMAT 'arc_%d_%U_%T';
+8>                                 backup current controlfile tag dbs_EARTH_d FORMAT 'ctl_%d_%U_%T';
+9>                                 DELETE noprompt BACKUP completed before 'SYSDATE-7' TAG dbs_EARTH_d;
+10>                                 DELETE noprompt backup of ARCHIVELOG all completed before 'SYSDATE-7' TAG dbs_EARTH_d;
+11>                                 DELETE noprompt backup of SPFILE completed before 'SYSDATE-7' TAG dbs_EARTH_d;
+12>                                 DELETE noprompt backup of CONTROLFILE completed before 'SYSDATE-7' TAG dbs_EARTH_d;
+13>                                 release channel ch1;
+14>                                 }
+allocated channel: ch1
+channel ch1: SID=23 device type=SBT_TAPE
+channel ch1: Oracle Secure Backup Web Services Library VER=19.0.0.1
+
+Starting backup at 11-JUL-24
+channel ch1: starting compressed incremental level 1 datafile backup set
+channel ch1: specifying datafile(s) in backup set
+input datafile file number=00021 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.277.1162721273
+input datafile file number=00023 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_hr.285.1162721827
+input datafile file number=00018 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/sysaux.274.1162721163
+input datafile file number=00022 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.278.1162721491
+input datafile file number=00027 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.279.1162721721
+input datafile file number=00019 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/undotbs1.275.1162721195
+input datafile file number=00017 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/system.272.1162721145
+input datafile file number=00028 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.284.1162721775
+input datafile file number=00020 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/users.276.1162721267
+input datafile file number=00024 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_ords.280.1162721889
+input datafile file number=00029 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_pco.283.1162721897
+input datafile file number=00030 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_cctv.286.1162721901
+input datafile file number=00025 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_request.281.1162721891
+input datafile file number=00026 name=+DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_intranet.282.1162721895
+channel ch1: starting piece 1 at 11-JUL-24
+channel ch1: finished piece 1 at 11-JUL-24
+piece handle=dbs_EARTH_712vm4s2_38113_1_1_20240711 tag=DBS_EARTH_D comment=API Version 2.0,MMS Version 19.0.0.1
+channel ch1: backup set complete, elapsed time: 00:00:45
+channel ch1: starting compressed incremental level 1 datafile backup set
+channel ch1: specifying datafile(s) in backup set
+input datafile file number=00006 name=+DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/undotbs1.270.1162720691
+skipping datafile 00006 because it has not changed
+input datafile file number=00002 name=+DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/system.338.1162720679
+skipping datafile 00002 because it has not changed
+input datafile file number=00004 name=+DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/sysaux.268.1162720687
+skipping datafile 00004 because it has not changed
+channel ch1: backup cancelled because all files were skipped
+channel ch1: starting compressed incremental level 1 datafile backup set
+channel ch1: specifying datafile(s) in backup set
+input datafile file number=00003 name=+DATA/EARTH/DATAFILE/sysaux.267.1162721977
+input datafile file number=00001 name=+DATA/EARTH/DATAFILE/system.287.1162721965
+input datafile file number=00005 name=+DATA/EARTH/DATAFILE/undotbs1.269.1162721989
+input datafile file number=00007 name=+DATA/EARTH/DATAFILE/users.271.1162722057
+channel ch1: starting piece 1 at 11-JUL-24
+channel ch1: finished piece 1 at 11-JUL-24
+piece handle=dbs_EARTH_732vm4tg_38115_1_1_20240711 tag=DBS_EARTH_D comment=API Version 2.0,MMS Version 19.0.0.1
+channel ch1: backup set complete, elapsed time: 00:00:25
+Finished backup at 11-JUL-24
+
+Starting backup at 11-JUL-24
+channel ch1: starting compressed full datafile backup set
+channel ch1: specifying datafile(s) in backup set
+including current SPFILE in backup set
+channel ch1: starting piece 1 at 11-JUL-24
+channel ch1: finished piece 1 at 11-JUL-24
+piece handle=spf_EARTH_742vm4um_38116_1_1_20240711 tag=DBS_EARTH_D comment=API Version 2.0,MMS Version 19.0.0.1
+channel ch1: backup set complete, elapsed time: 00:00:03
+Finished backup at 11-JUL-24
+
+Starting backup at 11-JUL-24
+current log archived
+skipping archived log of thread 1 with sequence 13256; already backed up
+channel ch1: starting compressed archived log backup set
+channel ch1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=13257 RECID=7606 STAMP=1174082525
+channel ch1: starting piece 1 at 11-JUL-24
+channel ch1: finished piece 1 at 11-JUL-24
+piece handle=arc_EARTH_752vm4uv_38117_1_1_20240711 tag=DBS_EARTH_D comment=API Version 2.0,MMS Version 19.0.0.1
+channel ch1: backup set complete, elapsed time: 00:00:25
+Finished backup at 11-JUL-24
+
+Starting backup at 11-JUL-24
+channel ch1: starting compressed full datafile backup set
+channel ch1: specifying datafile(s) in backup set
+including current control file in backup set
+channel ch1: starting piece 1 at 11-JUL-24
+channel ch1: finished piece 1 at 11-JUL-24
+piece handle=ctl_EARTH_762vm4vt_38118_1_1_20240711 tag=DBS_EARTH_D comment=API Version 2.0,MMS Version 19.0.0.1
+channel ch1: backup set complete, elapsed time: 00:00:07
+Finished backup at 11-JUL-24
+
+Starting Control File and SPFILE Autobackup at 11-JUL-24
+piece handle=c-1111111111-20240711-03 comment=API Version 2.0,MMS Version 19.0.0.1
+Finished Control File and SPFILE Autobackup at 11-JUL-24
+
+
+List of Backup Pieces
+BP Key  BS Key  Pc# Cp# Status      Device Type Piece Name
+------- ------- --- --- ----------- ----------- ----------
+822420  822416  1   1   AVAILABLE   SBT_TAPE    dbs_EARTH_2b2v3m7t_37963_1_1_20240704
+822421  822417  1   1   AVAILABLE   SBT_TAPE    dbs_EARTH_2d2v3m9m_37965_1_1_20240704
+822449  822444  1   1   AVAILABLE   SBT_TAPE    spf_EARTH_2e2v3mam_37966_1_1_20240704
+822465  822463  1   1   AVAILABLE   SBT_TAPE    arc_EARTH_2f2v3mau_37967_1_1_20240704
+822476  822474  1   1   AVAILABLE   SBT_TAPE    ctl_EARTH_2g2v3mbj_37968_1_1_20240704
+deleted backup piece
+backup piece handle=dbs_EARTH_2b2v3m7t_37963_1_1_20240704 RECID=36126 STAMP=1173477632
+deleted backup piece
+backup piece handle=dbs_EARTH_2d2v3m9m_37965_1_1_20240704 RECID=36127 STAMP=1173477687
+deleted backup piece
+backup piece handle=spf_EARTH_2e2v3mam_37966_1_1_20240704 RECID=36128 STAMP=1173477718
+deleted backup piece
+backup piece handle=arc_EARTH_2f2v3mau_37967_1_1_20240704 RECID=36129 STAMP=1173477726
+deleted backup piece
+backup piece handle=ctl_EARTH_2g2v3mbj_37968_1_1_20240704 RECID=36130 STAMP=1173477748
+Deleted 5 objects
+
+
+specification does not match any backup in the repository
+
+specification does not match any backup in the repository
+
+specification does not match any backup in the repository
+
+released channel: ch1
+
+
+RMAN>                         list backup summary tag=dbs_EARTH_d;
+
+List of Backups
+===============
+Key     TY LV S Device Type Completion Time #Pieces #Copies Compressed Tag
+------- -- -- - ----------- --------------- ------- ------- ---------- ---
+822687  B  1  A SBT_TAPE    05-JUL-24       1       1       YES        DBS_EARTH_D
+822688  B  1  A SBT_TAPE    05-JUL-24       1       1       YES        DBS_EARTH_D
+822715  B  F  A SBT_TAPE    05-JUL-24       1       1       YES        DBS_EARTH_D
+822734  B  A  A SBT_TAPE    05-JUL-24       1       1       YES        DBS_EARTH_D
+822745  B  F  A SBT_TAPE    05-JUL-24       1       1       YES        DBS_EARTH_D
+822958  B  1  A SBT_TAPE    06-JUL-24       1       1       YES        DBS_EARTH_D
+822959  B  1  A SBT_TAPE    06-JUL-24       1       1       YES        DBS_EARTH_D
+822986  B  F  A SBT_TAPE    06-JUL-24       1       1       YES        DBS_EARTH_D
+823005  B  A  A SBT_TAPE    06-JUL-24       1       1       YES        DBS_EARTH_D
+823016  B  F  A SBT_TAPE    06-JUL-24       1       1       YES        DBS_EARTH_D
+823328  B  1  A SBT_TAPE    07-JUL-24       1       1       YES        DBS_EARTH_D
+823329  B  1  A SBT_TAPE    07-JUL-24       1       1       YES        DBS_EARTH_D
+823356  B  F  A SBT_TAPE    07-JUL-24       1       1       YES        DBS_EARTH_D
+823375  B  A  A SBT_TAPE    07-JUL-24       1       1       YES        DBS_EARTH_D
+823386  B  F  A SBT_TAPE    07-JUL-24       1       1       YES        DBS_EARTH_D
+823744  B  1  A SBT_TAPE    08-JUL-24       1       1       YES        DBS_EARTH_D
+823745  B  1  A SBT_TAPE    08-JUL-24       1       1       YES        DBS_EARTH_D
+823772  B  F  A SBT_TAPE    08-JUL-24       1       1       YES        DBS_EARTH_D
+823791  B  A  A SBT_TAPE    08-JUL-24       1       1       YES        DBS_EARTH_D
+823802  B  F  A SBT_TAPE    08-JUL-24       1       1       YES        DBS_EARTH_D
+824008  B  1  A SBT_TAPE    09-JUL-24       1       1       YES        DBS_EARTH_D
+824009  B  1  A SBT_TAPE    09-JUL-24       1       1       YES        DBS_EARTH_D
+824036  B  F  A SBT_TAPE    09-JUL-24       1       1       YES        DBS_EARTH_D
+824055  B  A  A SBT_TAPE    09-JUL-24       1       1       YES        DBS_EARTH_D
+824066  B  F  A SBT_TAPE    09-JUL-24       1       1       YES        DBS_EARTH_D
+824308  B  1  A SBT_TAPE    10-JUL-24       1       1       YES        DBS_EARTH_D
+824309  B  1  A SBT_TAPE    10-JUL-24       1       1       YES        DBS_EARTH_D
+824336  B  F  A SBT_TAPE    10-JUL-24       1       1       YES        DBS_EARTH_D
+824355  B  A  A SBT_TAPE    10-JUL-24       1       1       YES        DBS_EARTH_D
+824366  B  F  A SBT_TAPE    10-JUL-24       1       1       YES        DBS_EARTH_D
+824681  B  1  A SBT_TAPE    11-JUL-24       1       1       YES        DBS_EARTH_D
+824682  B  1  A SBT_TAPE    11-JUL-24       1       1       YES        DBS_EARTH_D
+824709  B  F  A SBT_TAPE    11-JUL-24       1       1       YES        DBS_EARTH_D
+824728  B  A  A SBT_TAPE    11-JUL-24       1       1       YES        DBS_EARTH_D
+824739  B  F  A SBT_TAPE    11-JUL-24       1       1       YES        DBS_EARTH_D
+
+
+RMAN>
+
+Recovery Manager complete.
+
+*** Script rman_backup_aws.sh
+*** STATUS ==> ended successfully on 11/07/2024 22:03:22
+
+Script execution time 200 seconds
+*** Process Ending : 11/07/2024 22:03:22

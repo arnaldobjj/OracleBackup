@@ -1,0 +1,288 @@
+[2024-05-22 15:15:19] [Info] Initial checks
+[2024-05-22 15:15:19] [Info] Decrypted RMAN password.
+[2024-05-22 15:15:19] [Info] Decrypted backup password.
+[2024-05-22 15:15:22] [Info] Database files from the ASM (+DATA diskgroup) have been removed.
+[2024-05-22 15:15:24] [Info] Database files from the ASM (+FRA diskgroup) have been removed.
+[2024-05-22 15:15:24] [Info] Removing directories
+[2024-05-22 15:15:24] [Info] Removing init files.
+[2024-05-22 15:15:24] [Info] File /companyname/app/oracle/product/19.3.0/db_1/spfileEARTH.ora has been removed.
+[2024-05-22 15:15:24] [Info] Creating directories.
+[2024-05-22 15:15:24] [Info] Initiating RMAN restore. This operation may take a while.
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Wed May 22 15:15:24 2024
+Version 19.21.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database (not started)
+connected to recovery catalog database
+
+RMAN>
+echo set on
+
+RMAN> startup nomount force
+
+startup failed: ORA-01078: failure in processing system parameters
+LRM-00109: could not open parameter file '/companyname/app/oracle/product/19.3.0/db_1/dbs/initEARTH.ora'
+
+starting Oracle instance without parameter file for retrieval of spfile
+Oracle instance started
+
+Total System Global Area    1073740952 bytes
+
+Fixed Size                     9039000 bytes
+Variable Size                276824064 bytes
+Database Buffers             780140544 bytes
+Redo Buffers                   7737344 bytes
+
+RMAN> SET DECRYPTION IDENTIFIED BY *
+executing command: SET decryption
+
+
+RMAN> set dbid=1111111111;
+executing command: SET DBID
+database name is "EARTH" and DBID is 1111111111
+
+
+RMAN> run {
+2> allocate channel ch1 type sbt
+3> PARMS='SBT_LIBRARY=/companyname/app/oracle/product/19.3.0/db_1/lib/libosbws.so,SBT_PARMS=(OSB_WS_PFILE=/companyname/app/oracle/product/19.3.0/db_1/dbs/osbws_conf/osbws_cflashdb.ora)';
+4> RESTORE SPFILE TO "//companyname/app/oracle/product/19.3.0/db_1/dbs/spfileEARTH.ora";
+5> shutdown abort
+6> startup nomount
+7> RESTORE CONTROLFILE;
+8> ALTER DATABASE MOUNT;
+9> RESTORE DATABASE;
+10> SWITCH DATAFILE ALL;
+11> RECOVER DATABASE;
+12> release channel ch1;
+13> }
+allocated channel: ch1
+channel ch1: SID=61 device type=SBT_TAPE
+channel ch1: Oracle Secure Backup Web Services Library VER=19.0.0.1
+
+Starting restore at 22-MAY-24
+
+channel ch1: starting datafile backup set restore
+channel ch1: restoring SPFILE
+output file name=//companyname/app/oracle/product/19.3.0/db_1/dbs/spfileEARTH.ora
+channel ch1: reading from backup piece c-1111111111-20240522-02
+channel ch1: piece handle=c-1111111111-20240522-02 tag=TAG20240522T151428
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:00:01
+Finished restore at 22-MAY-24
+
+Oracle instance shut down
+
+connected to target database (not started)
+Oracle instance started
+
+Total System Global Area    5368708920 bytes
+
+Fixed Size                     9281336 bytes
+Variable Size               3607101440 bytes
+Database Buffers            1728053248 bytes
+Redo Buffers                  24272896 bytes
+allocated channel: ch1
+channel ch1: SID=623 device type=SBT_TAPE
+channel ch1: Oracle Secure Backup Web Services Library VER=19.0.0.1
+
+Starting restore at 22-MAY-24
+
+channel ch1: starting datafile backup set restore
+channel ch1: restoring control file
+channel ch1: reading from backup piece c-1111111111-20240522-02
+channel ch1: piece handle=c-1111111111-20240522-02 tag=TAG20240522T151428
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:00:07
+output file name=+DATA/EARTH/control01.ctl
+output file name=+FRA/EARTH/control02.ctl
+Finished restore at 22-MAY-24
+
+Statement processed
+
+Starting restore at 22-MAY-24
+Starting implicit crosscheck backup at 22-MAY-24
+Finished implicit crosscheck backup at 22-MAY-24
+
+Starting implicit crosscheck copy at 22-MAY-24
+Finished implicit crosscheck copy at 22-MAY-24
+
+searching for all files in the recovery area
+cataloging files...
+no files cataloged
+
+
+channel ch1: starting datafile backup set restore
+channel ch1: specifying datafile(s) to restore from backup set
+channel ch1: restoring datafile 00017 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/system.272.1162721145
+channel ch1: restoring datafile 00018 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/sysaux.274.1162721163
+channel ch1: restoring datafile 00019 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/undotbs1.275.1162721195
+channel ch1: restoring datafile 00020 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/users.276.1162721267
+channel ch1: restoring datafile 00021 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.277.1162721273
+channel ch1: restoring datafile 00022 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.278.1162721491
+channel ch1: restoring datafile 00023 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_hr.285.1162721827
+channel ch1: restoring datafile 00024 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_ords.280.1162721889
+channel ch1: restoring datafile 00025 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_request.281.1162721891
+channel ch1: restoring datafile 00026 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_intranet.282.1162721895
+channel ch1: restoring datafile 00027 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.279.1162721721
+channel ch1: restoring datafile 00028 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/userspace1.284.1162721775
+channel ch1: restoring datafile 00029 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_pco.283.1162721897
+channel ch1: restoring datafile 00030 to +DATA/EARTH/86051B649E8ACA1EE053C0A84B26BEB1/DATAFILE/tbs_cctv.286.1162721901
+channel ch1: reading from backup piece dbs_EARTH_592rerpb_37033_1_1_20240522
+channel ch1: piece handle=dbs_EARTH_592rerpb_37033_1_1_20240522 tag=DBS_EARTH_CW
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:19:16
+channel ch1: starting datafile backup set restore
+channel ch1: specifying datafile(s) to restore from backup set
+channel ch1: restoring datafile 00002 to +DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/system.338.1162720679
+channel ch1: restoring datafile 00004 to +DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/sysaux.268.1162720687
+channel ch1: restoring datafile 00006 to +DATA/EARTH/95BD396BA3B08841E053C0A84B263544/DATAFILE/undotbs1.270.1162720691
+channel ch1: reading from backup piece dbs_EARTH_5a2ret4v_37034_1_1_20240522
+channel ch1: piece handle=dbs_EARTH_5a2ret4v_37034_1_1_20240522 tag=DBS_EARTH_CW
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:01:25
+channel ch1: starting datafile backup set restore
+channel ch1: specifying datafile(s) to restore from backup set
+channel ch1: restoring datafile 00001 to +DATA/EARTH/DATAFILE/system.287.1162721965
+channel ch1: restoring datafile 00003 to +DATA/EARTH/DATAFILE/sysaux.267.1162721977
+channel ch1: restoring datafile 00005 to +DATA/EARTH/DATAFILE/undotbs1.269.1162721989
+channel ch1: restoring datafile 00007 to +DATA/EARTH/DATAFILE/users.271.1162722057
+channel ch1: reading from backup piece dbs_EARTH_5b2ret96_37035_1_1_20240522
+channel ch1: piece handle=dbs_EARTH_5b2ret96_37035_1_1_20240522 tag=DBS_EARTH_CW
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:02:15
+Finished restore at 22-MAY-24
+
+
+Starting recover at 22-MAY-24
+
+starting media recovery
+
+channel ch1: starting archived log restore to default destination
+channel ch1: restoring archived log
+archived log thread=1 sequence=12924
+channel ch1: reading from backup piece dbs_EARTH_5c2retfl_37036_1_1_20240522
+channel ch1: piece handle=dbs_EARTH_5c2retfl_37036_1_1_20240522 tag=DBS_EARTH_CW
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:00:07
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12924.349.1169653167 thread=1 sequence=12924
+channel ch1: starting archived log restore to default destination
+channel ch1: restoring archived log
+archived log thread=1 sequence=12925
+channel ch1: reading from backup piece arc_EARTH_5g2retgj_37040_1_1_20240522
+channel ch1: piece handle=arc_EARTH_5g2retgj_37040_1_1_20240522 tag=DBS_EARTH_CW
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:00:03
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12925.347.1169653175 thread=1 sequence=12925
+channel ch1: starting archived log restore to default destination
+channel ch1: restoring archived log
+archived log thread=1 sequence=12926
+channel ch1: reading from backup piece arc_EARTH_5j2retu4_37043_1_1_20240522
+channel ch1: piece handle=arc_EARTH_5j2retu4_37043_1_1_20240522 tag=ARC_EARTH_D
+channel ch1: restored backup piece 1
+channel ch1: restore complete, elapsed time: 00:00:03
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12926.341.1169653179 thread=1 sequence=12926
+unable to find archived log
+archived log thread=1 sequence=12927
+released channel: ch1
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of recover command at 05/22/2024 15:39:40
+RMAN-06054: media recovery requesting unknown archived log for thread 1 with sequence 12927 and starting SCN of 671022960
+
+
+RMAN> alter database open resetlogs;
+Statement processed
+new incarnation of database registered in recovery catalog
+starting full resync of recovery catalog
+full resync complete
+
+
+RMAN> exit;
+
+Recovery Manager complete.
+[2024-05-22 15:40:14]
+[2024-05-22 15:40:14] [Info] RMAN restore has been completed.
+[2024-05-22 15:40:14] [Info] Initiating RMAN clean up.
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Wed May 22 15:40:14 2024
+Version 19.21.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: EARTH (DBID=1111111111)
+connected to recovery catalog database
+
+RMAN>
+echo set on
+
+RMAN> crosscheck archivelog all;
+starting full resync of recovery catalog
+full resync complete
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=318 device type=DISK
+validation failed for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12923.367.1169639019 RECID=6938 STAMP=1169639020
+validation succeeded for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12924.349.1169653167 RECID=6945 STAMP=1169653171
+validation failed for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12924.299.1169651187 RECID=6940 STAMP=1169651188
+validation succeeded for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12925.347.1169653175 RECID=6946 STAMP=1169653174
+validation failed for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12925.296.1169651219 RECID=6941 STAMP=1169651218
+validation succeeded for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12926.341.1169653179 RECID=6947 STAMP=1169653178
+validation failed for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12926.423.1169651651 RECID=6943 STAMP=1169651650
+validation succeeded for archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_1.356.1169653189 RECID=6948 STAMP=1169653189
+Crosschecked 8 objects
+
+
+
+RMAN> delete noprompt expired archivelog all;
+released channel: ORA_DISK_1
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=318 device type=DISK
+List of Archived Log Copies for database with db_unique_name EARTH
+=====================================================================
+
+Key     Thrd Seq     S Low Time
+------- ---- ------- - ---------
+805151  1    12923   X 22-MAY-24
+        Name: +FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12923.367.1169639019
+
+805194  1    12924   X 22-MAY-24
+        Name: +FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12924.299.1169651187
+
+805279  1    12925   X 22-MAY-24
+        Name: +FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12925.296.1169651219
+
+805350  1    12926   X 22-MAY-24
+        Name: +FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12926.423.1169651651
+
+deleted archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12923.367.1169639019 RECID=6938 STAMP=1169639020
+deleted archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12924.299.1169651187 RECID=6940 STAMP=1169651188
+deleted archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12925.296.1169651219 RECID=6941 STAMP=1169651218
+deleted archived log
+archived log file name=+FRA/EARTH/ARCHIVELOG/2024_05_22/thread_1_seq_12926.423.1169651651 RECID=6943 STAMP=1169651650
+Deleted 4 EXPIRED objects
+
+
+
+RMAN> exit;
+
+Recovery Manager complete.
+[2024-05-22 15:40:25] [Info] RMAN clean up has been completed.
+[2024-05-22 15:40:25] [Info] The new incarnation has been removed from the RMAN catalog.
+[2024-05-22 15:40:25] [Info] Checking the database
+[2024-05-22 15:40:25] [Info] Database EARTH status [READ WRITE].
+[2024-05-22 15:40:25] [Info] Execution Log: /opt/restoreDB/log/restoreDB.log.
+[2024-05-22 15:40:25] [Info] Script execution time: 00:25:06
+[2024-05-22 15:40:25] [OK] The database EARTH was sucessfully restored.
